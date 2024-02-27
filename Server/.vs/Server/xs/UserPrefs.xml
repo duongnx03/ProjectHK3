@@ -9,7 +9,9 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Server" expanded="True" selected="True" />
+          <Node name="Server" expanded="True">
+            <Node name="OnlineLaundry" expanded="True" />
+          </Node>
         </State>
       </Pad>
     </Pads>
