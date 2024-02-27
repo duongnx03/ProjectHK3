@@ -4080,26 +4080,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\minht\\.nuget\\packages\\": {}
+    "/Users/mac/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\.net\\Project3\\Project3\\Project3.csproj",
+      "projectUniqueName": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/Project3.csproj",
       "projectName": "Project3",
-      "projectPath": "D:\\Project\\.net\\Project3\\Project3\\Project3.csproj",
-      "packagesPath": "C:\\Users\\minht\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\.net\\Project3\\Project3\\obj\\",
+      "projectPath": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/Project3.csproj",
+      "packagesPath": "/Users/mac/.nuget/packages/",
+      "outputPath": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\minht\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/mac/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/sdk/7.0.311/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4180,7 +4179,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
       }
     }
   }

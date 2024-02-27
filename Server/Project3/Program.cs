@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IBlogRepo, BlogRepo>();
 builder.Services.AddSignalR();
 
 var allowOrigins = builder.Configuration.GetSection("AllowOrigins").Get<string[]>();

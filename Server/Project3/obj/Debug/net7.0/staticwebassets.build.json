@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "HlzLKNM22hfFX8WXpq4aRCS6tx8Xg1cevhQrRkex1q8=",
+  "Hash": "t1WT2Y5WeRuDKwezwoL+uaCUWPbVnVOYp6dEfLM+Fmw=",
   "Source": "Project3",
   "BasePath": "_content/Project3",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Project3/wwwroot",
+      "Source": "Project3",
+      "ContentRoot": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/",
+      "BasePath": "_content/Project3",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

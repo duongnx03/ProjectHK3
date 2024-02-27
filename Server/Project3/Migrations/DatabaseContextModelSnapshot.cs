@@ -22,6 +22,59 @@ namespace Project3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Project3.Models.BlogPost", b =>
+                {
+                    b.Property<int>("BlogPostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPostId"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DatePublished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("BlogPostId");
+
+                    b.ToTable("BlogPosts");
+
+                    b.HasData(
+                        new
+                        {
+                            BlogPostId = 1,
+                            Author = "John Doe",
+                            Content = "This is the content of the first blog post.",
+                            DatePublished = new DateTime(2024, 2, 20, 16, 50, 41, 878, DateTimeKind.Utc).AddTicks(6330),
+                            ImageUrl = "sample.jpg",
+                            Title = "First Blog Post"
+                        },
+                        new
+                        {
+                            BlogPostId = 2,
+                            Author = "Jane Doe",
+                            Content = "This is the content of the second blog post.",
+                            DatePublished = new DateTime(2024, 2, 22, 16, 50, 41, 878, DateTimeKind.Utc).AddTicks(6340),
+                            ImageUrl = "sample.jpg",
+                            Title = "Second Blog Post"
+                        });
+                });
+
             modelBuilder.Entity("Project3.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -106,9 +159,9 @@ namespace Project3.Migrations
                             Email = "onlinelaundry.126@gmail.com",
                             FullName = "Online Laundry",
                             LastActivity = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Password = "$2a$11$Ju7K8N2F87k4470XS0HzGO5pcqtUYCrifnpKcBBhw7gonFxO4Qa3.",
+                            Password = "$2a$11$sw2gRv5s/a30iP99bb/KquheqwpSJfNZW7mrEJD1bBuLTsEgZD/N.",
                             Phone = "0123456789",
-                            RegisterTime = new DateTime(2024, 2, 26, 17, 13, 46, 148, DateTimeKind.Local).AddTicks(4631),
+                            RegisterTime = new DateTime(2024, 2, 27, 23, 50, 41, 878, DateTimeKind.Local).AddTicks(5460),
                             Role = "Admin",
                             UserName = "admin",
                             isBan = false,

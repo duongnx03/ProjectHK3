@@ -14,21 +14,24 @@ import ForgotPassword from './components/ForgotPassword';
 import { AppProvider } from './components/AppContext';
 import UserActivityTracker from './components/UserActivityTracker';
 import Logout from './components/Logout';
+import CreateBlog from './components/Admin/CreateBlog';
+import EditBlog from './components/Admin/EditBlog';
 
 
 
 function App() {
   return (
-
-    <div className="App">
     
     <AppProvider>
       <UserActivityTracker />
-      <Router>
         <SignalRLogout />
         <Routes>
           <Route path="/admin" element={<Admin/>} />
-          <Route path="/admin/blogs" element={<BlogList/>} />
+          <Route path="/adminblogs" element={<BlogList/>} />
+          <Route path="/createblog" element={<CreateBlog/>} />
+          <Route path="/editblog/:id" element={<EditBlog/>} />
+          
+
           <Route path="/index" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
@@ -38,11 +41,9 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/profile/*" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/" element={<Admin />} />
         </Routes>
-      </Router>
     </AppProvider>
-    </div>
+  
   );
 }
 
