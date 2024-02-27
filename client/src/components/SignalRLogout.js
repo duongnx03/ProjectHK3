@@ -32,6 +32,7 @@ function SignalRLogout() {
             // Clear the interval after 10 seconds
             setTimeout(() => {
                 clearInterval(timer);
+                localStorage.removeItem('isLoggedIn');
                 logout();
             }, 10000);
         });

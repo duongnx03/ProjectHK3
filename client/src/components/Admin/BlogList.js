@@ -118,16 +118,16 @@ const BlogList = () => {
             {/* Sidebar Menu */}
             <nav className="mt-2">
               <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li className="nav-item menu-open">
-                  <Link to="/admin" className="nav-link">
-                    <i className="nav-icon fas fa-tachometer-alt" />
+                <li className="nav-item">
+                  <Link to="/admin/userlist" className="nav-link">
+                    <i className="nav-icon fas fa-book" />
                     <p>
-                      Dashboard
+                      Users
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/adminblogs" className="nav-link">
+                  <Link to="/admin/blogs" className="nav-link active">
                     <i className="nav-icon fas fa-book" />
                     <p>
                       Blogs
@@ -270,7 +270,7 @@ const BlogList = () => {
                   <div className="card">
                     <div className="card-header">
                       {/* <h3 className="card-title"><a href=''>Create New Blog</a></h3> */}
-                      <h3><Link to='/createblog'>Create New Blog</Link></h3>
+                      <h3><Link to='/admin/createblog'>Create New Blog</Link></h3>
                     </div>
                     {/* /.card-header */}
                     <div className="card-body">
@@ -299,7 +299,7 @@ const BlogList = () => {
                               </td>
                               <td>
                                 {/* Đặt liên kết để chuyển đến trang chỉnh sửa */}
-                                <Link to={`/editblog/${blog.blogPostId}`}>Edit</Link>
+                                <Link to={`/admin/editblog/${blog.blogPostId}`}>Edit</Link>
                                 <button onClick={() => handleDelete(blog.blogPostId)}>Delete</button>
                               </td>
                             </tr>

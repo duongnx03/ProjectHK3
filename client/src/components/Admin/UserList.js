@@ -1,74 +1,83 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const EditBlog = () => {
-    const [formData, setFormData] = useState({
-        title: '',
-        content: '',
-        author: '',
-        dateTime: new Date().toISOString(),
-        image: null
-    });
-
-    const navigate = useNavigate();
-    const { id } = useParams(); // Lấy ID bài đăng blog từ params URL
+const UserList = () => {
+    const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchMessage, setSearchMessage] = useState('');
 
     useEffect(() => {
-        if (id) {
-            // Lấy dữ liệu bài đăng blog nếu đang chỉnh sửa
-            fetchBlogPost(id);
-        }
-    }, [id]);
+        fetchUsers();
+    }, []);
 
-    const fetchBlogPost = async (id) => {
+    const fetchUsers = async () => {
         try {
-            const response = await axios.get(`https://localhost:7240/api/blog/${id}`);
-            const { title, content, author, dateTime, imageUrl } = response.data;
-            setFormData({ title, content, author, dateTime, image: null }); // Giả sử ảnh không thể chỉnh sửa
+            const response = await axios.get('https://localhost:7240/api/User/getAllUsers', {
+                withCredentials: true,
+            });
+            console.log(response.data);
+            setUsers(response.data);
         } catch (error) {
-            console.error('Lỗi khi lấy bài đăng blog:', error);
+            console.error('There was a problem with the fetch operation:', error);
         }
     };
 
-    const handleChange = (e) => {
-        if (e.target.name === 'image') {
-            setFormData({ ...formData, image: e.target.files[0] });
-        } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-        }
+    const handleSearch = () => {
+        axios.get(`https://localhost:7240/api/User/searchUser/${searchTerm}`, {
+            withCredentials: true,
+        })
+            .then(response => {
+                if (response.data.length > 0) {
+                    setUsers(response.data);
+                    setSearchMessage('');
+                } else {
+                    setUsers([]);
+                    setSearchMessage('Not found.');
+                }
+            })
+            .catch(error => {
+                console.error('Error searching for users:', error);
+            });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const formDataToSend = new FormData();
-            formDataToSend.append('title', formData.title);
-            formDataToSend.append('content', formData.content);
-            formDataToSend.append('author', formData.author);
-            formDataToSend.append('dateTime', formData.dateTime);
-            formDataToSend.append('image', formData.image);
-
-            if (id) {
-                // Nếu đang chỉnh sửa, gửi yêu cầu PUT để cập nhật bài đăng blog
-                await axios.put(`https://localhost:7240/api/blog/${id}`, formDataToSend);
-            } else {
-                // Nếu tạo mới, gửi yêu cầu POST để tạo bài đăng blog mới
-                await axios.post('https://localhost:7240/api/blog/', formDataToSend);
-            }
-            navigate('/admin/blogs');
-        } catch (error) {
-            console.error('Lỗi khi tạo/chỉnh sửa bài đăng blog:', error);
-        }
+    const handleBanUser = (userId) => {
+        const endpoint = `banUser/${userId}`;
+        axios.get(`https://localhost:7240/api/User/${endpoint}`, {
+            withCredentials: true,
+        })
+            .then(response => {
+                console.log(response.data);
+                fetchUsers(); // Làm mới danh sách người dùng sau khi thực hiện hành động ban
+            })
+            .catch(error => {
+                console.error('Error banning user:', error);
+            });
     };
+
+    const handleCancelBanUser = (userId) => {
+        const endpoint = `cancelBanUser/${userId}`;
+        axios.get(`https://localhost:7240/api/User/${endpoint}`, {
+            withCredentials: true,
+        })
+            .then(response => {
+                console.log(response.data);
+                fetchUsers(); // Làm mới danh sách người dùng sau khi thực hiện hành động hủy ban
+            })
+            .catch(error => {
+                console.error('Error canceling ban for user:', error);
+            });
+    };
+
+    function formatRegisterTime(registerTime) {
+        if (!registerTime) return ''; // Handle case when registerTime is not available
+
+        const date = new Date(registerTime);
+        return date.toLocaleString(); // Use toLocaleString for a localized date and time representation
+    }
 
     return (
         <div>
-            <meta charSet="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>Admin</title>
-            {/* Google Font: Source Sans Pro */}
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
             {/* Font Awesome Icons */}
             <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
@@ -119,10 +128,10 @@ const EditBlog = () => {
                 {/* Main Sidebar Container */}
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     {/* Brand Logo */}
-                    <a href="index.html" className="brand-link">
-                        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
+                    <div className="brand-link">
+
                         <span className="brand-text font-weight-light">Admin</span>
-                    </a>
+                    </div>
                     {/* Sidebar */}
                     <div className="sidebar">
                         {/* Sidebar user panel (optional) */}
@@ -149,7 +158,7 @@ const EditBlog = () => {
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <li className="nav-item">
-                                    <Link to="/admin/userlist" className="nav-link">
+                                    <Link to="/admin/userlist" className="nav-link active">
                                         <i className="nav-icon fas fa-book" />
                                         <p>
                                             Users
@@ -157,7 +166,7 @@ const EditBlog = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/admin/blogs" className="nav-link active">
+                                    <Link to="/admin/blogs" className="nav-link">
                                         <i className="nav-icon fas fa-book" />
                                         <p>
                                             Blogs
@@ -227,57 +236,84 @@ const EditBlog = () => {
                     {/* /.sidebar */}
                 </aside>
                 <div className="content-wrapper">
-
                     <section className="content-header">
                         <div className="container-fluid">
-                            <div className="row mb-2">
+                            <div className="row">
                                 <div className="col-sm-6">
-                                    <h1>Edit Blog</h1>
+                                    <h1>User List</h1>
                                 </div>
-                                <div className="col-sm-6">
+                                <div className="col-sm-6 d-none d-sm-block">
                                     <ol className="breadcrumb float-sm-right">
                                         <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                        <li className="breadcrumb-item active">Edit Blog</li>
+                                        <li className="breadcrumb-item active">User List</li>
                                     </ol>
                                 </div>
                             </div>
-                        </div>{/* /.container-fluid */}
-                    </section>
-                    {/* Content Header (Page header) */}
-                    {/* Main content */}
-                    <section className="content">
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="col-12">
-                                    <form onSubmit={handleSubmit}>
-
-                                        <div className="form-group">
-                                            <label>Title:</label>
-                                            <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Content:</label>
-                                            <textarea className="form-control" name="content" value={formData.content} onChange={handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Author:</label>
-                                            <input type="text" className="form-control" name="author" value={formData.author} onChange={handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Image:</label>
-                                            <input type="file" className="form-control-file" name="image" onChange={handleChange} />
-                                        </div>
-                                        <button type="submit" className="btn btn-primary">Update</button>
-
-                                    </form>
-                                </div>
-                                {/* /.col */}
-                            </div>
-                            {/* /.row */}
                         </div>
-                        {/* /.container-fluid */}
                     </section>
-                    {/* /.content */}
+
+                    <section className="content pb-3">
+                        <div className="input-group">
+                            <input
+                                type="search"
+                                className="form-control form-control-lg"
+                                placeholder="Type username to search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className="input-group-append">
+                                <button
+                                    type="button"
+                                    className="btn btn-lg btn-default"
+                                    onClick={handleSearch}
+                                >
+                                    <i className="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <br />
+                        {searchMessage && (
+                            <div className="alert alert-info" role="alert">
+                                {searchMessage}
+                            </div>
+                        )}
+                        {users.length > 0 && (
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Membership</th>
+                                        <th scope="col">Register time</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Ban</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {users.map((user, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{user.userName}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.address}</td>
+                                            <td>{user.phone}</td>
+                                            <td>{user.membership ? user.membership : 'Not registered'}</td>
+                                            <td>{formatRegisterTime(user.registerTime)}</td>
+                                            <td>{user.isOnline}</td>
+                                            <td>
+                                                <button className={`btn ${user.isBan ? 'btn-warning' : 'btn-primary'}`} onClick={() => user.isBan ? handleCancelBanUser(user.userId) : handleBanUser(user.userId)}>
+                                                    {user.isBan ? 'Cancel' : 'Ban'}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </section>
                 </div>
                 <footer className="main-footer">
                     <strong>Copyright © 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
@@ -308,4 +344,4 @@ const EditBlog = () => {
     )
 }
 
-export default EditBlog;
+export default UserList;

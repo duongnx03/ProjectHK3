@@ -34,7 +34,7 @@ const CreateBlog = () => {
 
             await axios.post('https://localhost:7240/api/blog/', formDataToSend);
             // Navigate to BlogList after successful blog creation
-            navigate('/adminblogs');
+            navigate('/admin/blogs');
         } catch (error) {
             console.error('Error creating blog:', error);
         }
@@ -126,16 +126,16 @@ const CreateBlog = () => {
                         {/* Sidebar Menu */}
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <li className="nav-item menu-open">
-                                    <Link to="/admin" className="nav-link">
-                                        <i className="nav-icon fas fa-tachometer-alt" />
+                                <li className="nav-item">
+                                    <Link to="/admin/userlist" className="nav-link">
+                                        <i className="nav-icon fas fa-book" />
                                         <p>
-                                            Dashboard
+                                            Users
                                         </p>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/adminblogs" className="nav-link">
+                                    <Link to="/admin/blogs" className="nav-link active">
                                         <i className="nav-icon fas fa-book" />
                                         <p>
                                             Blogs
