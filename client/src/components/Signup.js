@@ -38,7 +38,7 @@ const Signup = () => {
   
 
   return (
-    <div className="wrapper">
+    <div className="wrappers">
       <div className="form-box">
         <Formik
           initialValues={initialValues}

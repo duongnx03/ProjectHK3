@@ -36,7 +36,7 @@ const Login = ({ }) => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrappers">
       {/* Form box */}
       <div className="form-box">
         {/* Login form */}
