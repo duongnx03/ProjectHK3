@@ -50,6 +50,10 @@ namespace Project3.Data
                            DatePublished = DateTime.UtcNow.AddDays(-5), // Published 5 days ago
                            ImageUrl = "sample.jpg"
                        });
+                      modelBuilder.Entity<Product>().HasData(new Product[]
+                      { 
+                          new Product {ProductId=1, ProductName="Washing by Kilograms", ProductDescription="The amount that you have to pay should be based on your kilograms"}
+                      });     
         }
     }
 }
