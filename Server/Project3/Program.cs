@@ -16,6 +16,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IBlogRepo, BlogRepo>();
+builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddScoped<IOrderQuantityRepo, OrderQuantityRepo>();
+builder.Services.AddScoped<IOrderWeightRepo, OrderWeightRepo>();
+
 builder.Services.AddSignalR();
 
 var allowOrigins = builder.Configuration.GetSection("AllowOrigins").Get<string[]>();
