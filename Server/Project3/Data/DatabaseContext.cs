@@ -12,6 +12,9 @@ namespace Project3.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserConnection> UserConnections { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<OrderWeight> OrderWeights { get; set; }
+        public DbSet<OrderQuantity> OrderQuantitys { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
