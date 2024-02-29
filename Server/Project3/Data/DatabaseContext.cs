@@ -16,6 +16,8 @@ namespace Project3.Data
         public DbSet<OrderWeight> OrderWeights { get; set; }
         public DbSet<OrderQuantity> OrderQuantitys { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<Membership> Membership { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
