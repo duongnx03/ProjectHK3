@@ -25,7 +25,6 @@ function App() {
 
     <AppProvider>
       <UserActivityTracker />
-      <Router>
         <SignalRLogout />
         <Routes>
           <Route path="/admin" element={<AdminLogin />} />
@@ -46,8 +45,7 @@ function App() {
           <Route path="/profile/*" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
-      </Router>
-    </AppProvider>
+     </AppProvider>
 
   );
 }

@@ -96,33 +96,11 @@ const CreateBlog = () => {
                 {/* /.navbar */}
                 {/* Main Sidebar Container */}
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                    {/* Brand Logo */}
                     <a href="index.html" className="brand-link">
-                        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
-                        <span className="brand-text font-weight-light">Admin</span>
+                        <span className="brand-text font-weight-light">Admin Laundry</span>
                     </a>
                     {/* Sidebar */}
                     <div className="sidebar">
-                        {/* Sidebar user panel (optional) */}
-                        <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div className="image">
-                                <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
-                            </div>
-                            <div className="info">
-                                <a href="#" className="d-block">Group 3</a>
-                            </div>
-                        </div>
-                        {/* SidebarSearch Form */}
-                        <div className="form-inline">
-                            <div className="input-group" data-widget="sidebar-search">
-                                <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
-                                <div className="input-group-append">
-                                    <button className="btn btn-sidebar">
-                                        <i className="fas fa-search fa-fw" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                         {/* Sidebar Menu */}
                         <nav className="mt-2">
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -141,62 +119,6 @@ const CreateBlog = () => {
                                             Blogs
                                         </p>
                                     </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="pages/widgets.html" className="nav-link">
-                                        <i className="nav-icon fas fa-th" />
-                                        <p>
-                                            Widgets
-                                            <span className="right badge badge-danger">New</span>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li className="nav-header">ORTHER</li>
-                                <li className="nav-item">
-                                    <a href="pages/calendar.html" className="nav-link">
-                                        <i className="nav-icon fas fa-calendar-alt" />
-                                        <p>
-                                            Calendar
-                                            <span className="badge badge-info right">2</span>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="pages/kanban.html" className="nav-link">
-                                        <i className="nav-icon fas fa-columns" />
-                                        <p>
-                                            Kanban Board
-                                        </p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link">
-                                        <i className="nav-icon far fa-envelope" />
-                                        <p>
-                                            Mailbox
-                                            <i className="fas fa-angle-left right" />
-                                        </p>
-                                    </a>
-                                    <ul className="nav nav-treeview">
-                                        <li className="nav-item">
-                                            <a href="pages/mailbox/mailbox.html" className="nav-link">
-                                                <i className="far fa-circle nav-icon" />
-                                                <p>Inbox</p>
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="pages/mailbox/compose.html" className="nav-link">
-                                                <i className="far fa-circle nav-icon" />
-                                                <p>Compose</p>
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="pages/mailbox/read-mail.html" className="nav-link">
-                                                <i className="far fa-circle nav-icon" />
-                                                <p>Read</p>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
                             </ul>
                         </nav>
