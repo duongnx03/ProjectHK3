@@ -1,98 +1,69 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Form, Button, Col, Row, Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function OrderWeightForm() {
-  const [weight, setWeight] = useState('');
-  const [washTime, setWashTime] = useState('');
-  const [timeToFinishWashing, setTimeToFinishWashing] = useState('');
-  const [error, setError] = useState('');
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-  const [userInfo, setUserInfo] = useState({
-    fullName: '',
-    phone: '',
-    email: ''
-});
+const AddMembership = () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const [userInfo, setUserInfo] = useState({
+        fullName: '',
+        phone: '',
+        email: ''
+    });
+    const [errorMessage, setErrorMessage] = useState('');
 
-const fetchUserInfo = async () => {
-    try {
-        const response = await axios.get('https://localhost:7240/api/User/getUserById', {
-            withCredentials: true,
-        });
+    const fetchUserInfo = async () => {
+        try {
+            const response = await axios.get('https://localhost:7240/api/User/getUserById', {
+                withCredentials: true,
+            });
 
-        if (response.status !== 200) {
-            console.error('Error fetching user information. Server response:', response.status);
-            return;
+            if (response.status !== 200) {
+                console.error('Error fetching user information. Server response:', response.status);
+                return;
+            }
+
+            setUserInfo({
+                ...response.data,
+            });
+        } catch (error) {
+            console.error('Error in fetchUserInfo:', error);
         }
+    };
 
-        setUserInfo({
-            ...response.data,
-        });
-    } catch (error) {
-        console.error('Error in fetchUserInfo:', error);
-    }
-};
+    useEffect(() => {
+        fetchUserInfo();
+    }, []);
 
-useEffect(() => {
-    fetchUserInfo();
-}, []);
+    const onSubmit = async e => {
+        e.preventDefault();
+        try {
+            const currentDate = new Date();
+            const expirationDate = new Date();
+            expirationDate.setDate(currentDate.getDate() + 30);
+            const updatedFormData = {
+                customerName: userInfo.fullName,
+                email: userInfo.email,
+                phone: userInfo.phone, 
+                DateReigsterMembership: currentDate.toISOString(),
+                ExpirationDate: expirationDate.toISOString(),
+            };
 
-  const handleWeightChange = (event) => {
-    const weightValue = event.target.value;
-    if (!Number.isNaN(parseInt(weightValue)) && parseInt(weightValue) >= 0) {
-        setWeight(weightValue);
+            const response = await axios.post('https://localhost:7240/api/Membership', updatedFormData,  {withCredentials:true});
+            alert('Membership added successfully');
+        } catch (err) {
+            if (err.response && err.response.status === 409) {
+                setErrorMessage('Email already exists.');
+            } else {
+                setErrorMessage('Failed to add membership.');
+            }
+        }
+    };
 
-      const currentTime = new Date();
-      const timePerUnit = 60; // Phút
-      const totalMinutes = parseInt(weightValue) * timePerUnit;
-      const washTime = new Date(currentTime.getTime());
-      const timeToFinishWashing = new Date(currentTime.getTime() + totalMinutes * 60000);
-
-      setWashTime(washTime); 
-      setTimeToFinishWashing(timeToFinishWashing);
-      setError('');
-    } else {
-      setError('Weight must be a non-negative number.');
-    }
-  };
-  const sendOrderConfirmationEmail = async () => {
-    try {
-      const response = await axios.post('https://localhost:7240/api/Order/sendOrderConfirmationEmail', {
-        customerEmail: userInfo.email
-      });
-      console.log('Email sent successfully:', response.data);
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!weight) {
-      setError('Weight is required.');
-      return;
-    }
-
-    try {
-      const response = await axios.post('https://localhost:7240/api/OrderWeight/OrderWeightForm', {
-        customerName: userInfo.fullName,
-        customerPhone: userInfo.phone,
-        customerEmail: userInfo.email,
-        weight,
-        washTime: washTime.toISOString(), 
-        timeToFinishWashing: timeToFinishWashing.toISOString()
-      });
-      console.log('Data submitted successfully:', response.data);
-    } catch (error) {
-      console.error('Error submitting data:', error);
-    }
-  };
-
-  return (
- <div>
-   <link rel="preconnect" href="https://fonts.googleapis.com" />
+    return (
+        <div>
+             <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet" />
@@ -126,46 +97,31 @@ useEffect(() => {
           </div>
         </div>
         {/* Navbar End */}
-      <div className="container mt-5">
-      <h1>Order Form</h1>
-      <Form onSubmit={handleSubmit}>
-        <Row className="mb-3">
-          <Form.Group as={Col}>
-            <Form.Label>Customer Name</Form.Label>
-            <Form.Control type="text" value={userInfo.fullName} readOnly />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Customer Phone</Form.Label>
-            <Form.Control type="text" value={userInfo.phone}  readOnly />
-          </Form.Group>
-        </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col}>
-            <Form.Label>Customer Email</Form.Label>
-            <Form.Control type="email" value={userInfo.email} readOnly />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Weight</Form.Label>
-            <Form.Control type="number" value={weight} onChange={handleWeightChange} />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-          </Form.Group>
-        </Row>
-        {weight && (
-          <Card className="mb-3">
-            <Card.Body>
-              <Card.Title>Order Details</Card.Title>
-              <Card.Text>
-                <p><strong>Wash Time:</strong> {washTime.toLocaleString()}</p>
-                <p><strong>Time to Finish Washing:</strong> {timeToFinishWashing.toLocaleString()}</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        )}
-        <Button variant="primary" type="submit">Submit</Button>
-      </Form>
-    </div>
-     {/* Footer Start */}
-     <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay=".3s">
+        <Container>
+            <Row className="justify-content-center mt-5">
+                <Col md={6}>
+                    <h2 className="text-center mb-4">Add Membership</h2>
+                    <Form onSubmit={onSubmit}>
+                        <Form.Group>
+                            <Form.Label>Customer Name</Form.Label>
+                            <Form.Control type="text" name="customerName" value={userInfo.fullName} readOnly />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" name="email" value={userInfo.email} readOnly />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control type="tel" name="phone" value={userInfo.phone} readOnly />
+                        </Form.Group>
+                        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+                        <Button type="submit" className="w-100">Submit</Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+         {/* Footer Start */}
+    <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay=".3s">
           <div className="container py-5">
             <div className="row g-4 footer-inner">
               <div className="col-lg-3 col-md-6">
@@ -217,8 +173,8 @@ useEffect(() => {
         {/* Back to Top */}
         <a href="#" className="btn btn-primary rounded-circle border-3 back-to-top"><i className="fa fa-arrow-up" /></a>
         {/* JavaScript Libraries */}
- </div>
-  );
-}
+        </div>
+    );
+};
 
-export default OrderWeightForm;
+export default AddMembership;

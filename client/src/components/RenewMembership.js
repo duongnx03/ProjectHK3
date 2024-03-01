@@ -1,98 +1,61 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect } from 'react';
 import axios from 'axios';
-import { Form, Button, Col, Row, Card } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function OrderWeightForm() {
-  const [weight, setWeight] = useState('');
-  const [washTime, setWashTime] = useState('');
-  const [timeToFinishWashing, setTimeToFinishWashing] = useState('');
-  const [error, setError] = useState('');
+const RenewMembership = () => {
+  const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
   const [userInfo, setUserInfo] = useState({
     fullName: '',
     phone: '',
     email: ''
-});
+  });
 
-const fetchUserInfo = async () => {
+  const fetchUserInfo = async () => {
     try {
-        const response = await axios.get('https://localhost:7240/api/User/getUserById', {
-            withCredentials: true,
-        });
+      const response = await axios.get('https://localhost:7240/api/User/getUserById', {
+        withCredentials: true,
+      });
 
-        if (response.status !== 200) {
-            console.error('Error fetching user information. Server response:', response.status);
-            return;
-        }
+      if (response.status !== 200) {
+        console.error('Error fetching user information. Server response:', response.status);
+        return;
+      }
 
-        setUserInfo({
-            ...response.data,
-        });
+      setUserInfo({
+        ...response.data,
+      });
     } catch (error) {
-        console.error('Error in fetchUserInfo:', error);
+      console.error('Error in fetchUserInfo:', error);
     }
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     fetchUserInfo();
-}, []);
+  }, []);
 
-  const handleWeightChange = (event) => {
-    const weightValue = event.target.value;
-    if (!Number.isNaN(parseInt(weightValue)) && parseInt(weightValue) >= 0) {
-        setWeight(weightValue);
-
-      const currentTime = new Date();
-      const timePerUnit = 60; // Phút
-      const totalMinutes = parseInt(weightValue) * timePerUnit;
-      const washTime = new Date(currentTime.getTime());
-      const timeToFinishWashing = new Date(currentTime.getTime() + totalMinutes * 60000);
-
-      setWashTime(washTime); 
-      setTimeToFinishWashing(timeToFinishWashing);
-      setError('');
-    } else {
-      setError('Weight must be a non-negative number.');
-    }
-  };
-  const sendOrderConfirmationEmail = async () => {
+  const handleRenew = async () => {
     try {
-      const response = await axios.post('https://localhost:7240/api/Order/sendOrderConfirmationEmail', {
-        customerEmail: userInfo.email
-      });
-      console.log('Email sent successfully:', response.data);
+      await axios.post(`https://localhost:7240/api/Membership/renew?email=${userInfo.email}`);
+      alert('Membership renewed successfully!');
+      setEmail('');
     } catch (error) {
-      console.error('Error sending email:', error);
-    }
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!weight) {
-      setError('Weight is required.');
-      return;
-    }
-
-    try {
-      const response = await axios.post('https://localhost:7240/api/OrderWeight/OrderWeightForm', {
-        customerName: userInfo.fullName,
-        customerPhone: userInfo.phone,
-        customerEmail: userInfo.email,
-        weight,
-        washTime: washTime.toISOString(), 
-        timeToFinishWashing: timeToFinishWashing.toISOString()
-      });
-      console.log('Data submitted successfully:', response.data);
-    } catch (error) {
-      console.error('Error submitting data:', error);
+      console.error('Error renewing membership:', error);
+      if (error.response && error.response.status === 404) {
+        setErrorMessage('Membership not found for this email.');
+      } else {
+        setErrorMessage('Failed to renew membership.');
+      }
     }
   };
 
   return (
- <div>
-   <link rel="preconnect" href="https://fonts.googleapis.com" />
+    
+    <div>
+       <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet" />
@@ -126,46 +89,29 @@ useEffect(() => {
           </div>
         </div>
         {/* Navbar End */}
-      <div className="container mt-5">
-      <h1>Order Form</h1>
-      <Form onSubmit={handleSubmit}>
-        <Row className="mb-3">
-          <Form.Group as={Col}>
-            <Form.Label>Customer Name</Form.Label>
-            <Form.Control type="text" value={userInfo.fullName} readOnly />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Customer Phone</Form.Label>
-            <Form.Control type="text" value={userInfo.phone}  readOnly />
-          </Form.Group>
-        </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col}>
-            <Form.Label>Customer Email</Form.Label>
-            <Form.Control type="email" value={userInfo.email} readOnly />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Weight</Form.Label>
-            <Form.Control type="number" value={weight} onChange={handleWeightChange} />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-          </Form.Group>
-        </Row>
-        {weight && (
-          <Card className="mb-3">
-            <Card.Body>
-              <Card.Title>Order Details</Card.Title>
-              <Card.Text>
-                <p><strong>Wash Time:</strong> {washTime.toLocaleString()}</p>
-                <p><strong>Time to Finish Washing:</strong> {timeToFinishWashing.toLocaleString()}</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        )}
-        <Button variant="primary" type="submit">Submit</Button>
-      </Form>
-    </div>
-     {/* Footer Start */}
-     <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay=".3s">
+<Container>
+      <Row className="justify-content-center mt-5">
+        <Col md={6}>
+          <h2 className="text-center mb-4">Renew Membership</h2>
+          <Form>
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email Address:</Form.Label>
+              <Form.Control 
+                type="email" 
+                value={userInfo.email} 
+                readOnly
+            
+                placeholder="Enter your email" 
+              />
+            </Form.Group>
+            <Button variant="primary" onClick={handleRenew} className="w-100">Renew Membership</Button>
+            {errorMessage && <Alert variant="danger" className="mt-3">{errorMessage}</Alert>}
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+      {/* Footer Start */}
+      <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay=".3s">
           <div className="container py-5">
             <div className="row g-4 footer-inner">
               <div className="col-lg-3 col-md-6">
@@ -217,8 +163,9 @@ useEffect(() => {
         {/* Back to Top */}
         <a href="#" className="btn btn-primary rounded-circle border-3 back-to-top"><i className="fa fa-arrow-up" /></a>
         {/* JavaScript Libraries */}
- </div>
+    </div>
+    
   );
-}
+};
 
-export default OrderWeightForm;
+export default RenewMembership;
