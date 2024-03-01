@@ -146,6 +146,24 @@ namespace Project3.Services
         {
             Console.WriteLine($"{message}: {ex.Message}");
         }
+
+        public async Task<List<BlogPost>> SearchPosts(string keyword)
+        {
+            try
+            {
+                // Tìm kiếm bài viết blog dựa trên từ khóa
+                var result = await _context.BlogPosts
+                    .Where(post => post.Title.Contains(keyword) || post.Content.Contains(keyword) || post.Author.Contains(keyword))
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "Error searching blog posts");
+                return null;
+            }
+        }
     }
 }
 

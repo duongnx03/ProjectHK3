@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "t1WT2Y5WeRuDKwezwoL+uaCUWPbVnVOYp6dEfLM+Fmw=",
+  "Hash": "Qte+Jsl2cjIZ2JXtIMuFkIXlhDerejuNLmhQqAg1UTY=",
   "Source": "Project3",
   "BasePath": "_content/Project3",
   "Mode": "Default",
@@ -15,5 +15,40 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/80f36027-97fd-48c5-9d10-62fcb8b364e2_hinh1.jpeg",
+      "SourceId": "Project3",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/",
+      "BasePath": "_content/Project3",
+      "RelativePath": "images/80f36027-97fd-48c5-9d10-62fcb8b364e2_hinh1.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/80f36027-97fd-48c5-9d10-62fcb8b364e2_hinh1.jpeg"
+    },
+    {
+      "Identity": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/db8a5153-52c7-466e-9947-58315f0af405_hinh1.jpeg",
+      "SourceId": "Project3",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/",
+      "BasePath": "_content/Project3",
+      "RelativePath": "images/db8a5153-52c7-466e-9947-58315f0af405_hinh1.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/db8a5153-52c7-466e-9947-58315f0af405_hinh1.jpeg"
+    }
+  ]
 }

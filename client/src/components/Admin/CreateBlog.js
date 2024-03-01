@@ -14,13 +14,16 @@ const CreateBlog = () => {
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState({}); // State mới để lưu trữ các thông báo lỗi
+    const [imagePreview, setImagePreview] = useState(null); // State để lưu trữ URL của ảnh được chọn
 
     const handleChange = (e) => {
         if (e.target.name === 'image') {
-            setFormData({ ...formData, image: e.target.files[0] }); // Update image with selected file
+            const file = e.target.files[0];
+            setFormData({ ...formData, image: file }); // Update image with selected file
+            setImagePreview(URL.createObjectURL(file)); // Create preview URL for the selected image
         } else {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: '' }); // Xóa thông báo lỗi khi người dùng thay đổi giá trị trường
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+            setErrors({ ...errors, [e.target.name]: '' }); // Xóa thông báo lỗi khi người dùng thay đổi giá trị trường
         }
     };
 
@@ -180,10 +183,7 @@ const CreateBlog = () => {
                                         </div>
                                         <div className="form-group">
                                             <label>Content:</label>
-                                            <textarea className="form-control" name="content" value={formData.content} onChange={handleChange} />
-                                            {formData.content.length > 200 && (
-                                                <p className="text-muted">{formData.content.substring(0, 200)}...</p>
-                                            )}
+                                            <textarea rows={10} className="form-control" name="content" value={formData.content} onChange={handleChange} />
                                             {errors.content && <small className="text-danger">{errors.content}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
@@ -194,6 +194,7 @@ const CreateBlog = () => {
                                         <div className="form-group">
                                             <label>Image:</label>
                                             <input type="file" className="form-control-file" name="image" onChange={handleChange} />
+                                            {imagePreview && <img src={imagePreview} alt="Preview" style={{ marginTop: '10px', maxWidth: '200px' }} />} {/* Hiển thị ảnh được chọn */}
                                         </div>
                                         <button type="submit" className="btn btn-primary">Create</button>
                                     </form>
@@ -207,10 +208,10 @@ const CreateBlog = () => {
                     {/* /.content */}
                 </div>
                 <footer className="main-footer">
-                    <strong>Copyright © 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+                    <strong>Copyright © 2014-2021.</strong>
                     All rights reserved.
                     <div className="float-right d-none d-sm-inline-block">
-                        <b>New Decade </b>
+                        <b>LaundryStore </b>
                     </div>
                 </footer>
             </div>

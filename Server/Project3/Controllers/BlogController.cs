@@ -113,6 +113,20 @@ namespace Project3.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBlogPosts(string keyword)
+        {
+            try
+            {
+                var searchResult = await _blogRepo.SearchPosts(keyword);
+                return Ok(searchResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
 

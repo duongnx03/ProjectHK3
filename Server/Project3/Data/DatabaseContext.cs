@@ -18,7 +18,6 @@ namespace Project3.Data
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Membership> Membership { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,28 +33,29 @@ namespace Project3.Data
             });
 
             modelBuilder.Entity<BlogPost>().HasData(
-                       new BlogPost
-                       {
-                           BlogPostId = 1,
-                           Title = "First Blog Post",
-                           Content = "This is the content of the first blog post.",
-                           Author = "John Doe",
-                           DatePublished = DateTime.UtcNow.AddDays(-7), // Published 7 days ago
-                           ImageUrl = "sample.jpg"
-                       },
-                       new BlogPost
-                       {
-                           BlogPostId = 2,
-                           Title = "Second Blog Post",
-                           Content = "This is the content of the second blog post.",
-                           Author = "Jane Doe",
-                           DatePublished = DateTime.UtcNow.AddDays(-5), // Published 5 days ago
-                           ImageUrl = "sample.jpg"
-                       });
-                      modelBuilder.Entity<Product>().HasData(new Product[]
-                      { 
-                          new Product {ProductId=1, ProductName="Washing by Kilograms", ProductDescription="The amount that you have to pay should be based on your kilograms"}
-                      });     
+               new BlogPost
+               {
+                   BlogPostId = 1,
+                   Title = "First Blog Post",
+                   Content = "This is the content of the first blog post.",
+                   Author = "John Doe",
+                   DatePublished = DateTime.UtcNow.AddDays(-7), // Published 7 days ago
+                   ImageUrl = "cat.jpg"
+               },
+               new BlogPost
+               {
+                   BlogPostId = 2,
+                   Title = "Second Blog Post",
+                   Content = "This is the content of the second blog post.",
+                   Author = "Jane Doe",
+                   DatePublished = DateTime.UtcNow.AddDays(-5), // Published 5 days ago
+                   ImageUrl = "cat.jpg"
+               }); 
+
+            modelBuilder.Entity<Product>().HasData(new Product[]
+            {
+                new Product {ProductId=1, ProductName="Washing by Kilograms", ProductDescription="The amount that you have to pay should be based on your kilograms"}
+            });
         }
     }
 }

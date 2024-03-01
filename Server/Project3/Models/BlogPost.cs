@@ -15,7 +15,7 @@ namespace Project3.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Please provide the content of the blog post.")]
-        [MaxLength(5000, ErrorMessage = "Title cannot exceed 5000 characters.")]
+        [MaxLength(10000, ErrorMessage = "Title cannot exceed 10000 characters.")]
         public string Content { get; set; }
 
         [Required(ErrorMessage = "Please provide the author's name.")]

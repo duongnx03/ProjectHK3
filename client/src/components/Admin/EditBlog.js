@@ -5,19 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 const EditBlog = () => {
     const [formData, setFormData] = useState({
+        blogPostId: '',
         title: '',
         content: '',
         author: '',
-        dateTime: new Date().toISOString(),
         image: null
     });
 
     const navigate = useNavigate();
-    const { id } = useParams(); // Lấy ID bài đăng blog từ params URL
+    const { id } = useParams(); 
 
     useEffect(() => {
         if (id) {
-            // Lấy dữ liệu bài đăng blog nếu đang chỉnh sửa
             fetchBlogPost(id);
         }
     }, [id]);
@@ -25,8 +24,8 @@ const EditBlog = () => {
     const fetchBlogPost = async (id) => {
         try {
             const response = await axios.get(`https://localhost:7240/api/blog/${id}`);
-            const { title, content, author, dateTime, imageUrl } = response.data;
-            setFormData({ title, content, author, dateTime, image: null }); // Giả sử ảnh không thể chỉnh sửa
+            const { title, content, author, imageUrl } = response.data;
+            setFormData({ blogPostId: id, title, content, author, image: null });
         } catch (error) {
             console.error('Lỗi khi lấy bài đăng blog:', error);
         }
@@ -44,18 +43,24 @@ const EditBlog = () => {
         e.preventDefault();
         try {
             const formDataToSend = new FormData();
+            formDataToSend.append('blogPostId', formData.blogPostId);
             formDataToSend.append('title', formData.title);
             formDataToSend.append('content', formData.content);
             formDataToSend.append('author', formData.author);
-            formDataToSend.append('dateTime', formData.dateTime);
             formDataToSend.append('image', formData.image);
-
+    
             if (id) {
-                // Nếu đang chỉnh sửa, gửi yêu cầu PUT để cập nhật bài đăng blog
-                await axios.put(`https://localhost:7240/api/blog/${id}`, formDataToSend);
+                await axios.put(`https://localhost:7240/api/blog/${id}`, formDataToSend, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             } else {
-                // Nếu tạo mới, gửi yêu cầu POST để tạo bài đăng blog mới
-                await axios.post('https://localhost:7240/api/blog/', formDataToSend);
+                await axios.post('https://localhost:7240/api/blog/', formDataToSend, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             }
             navigate('/admin/blogs');
         } catch (error) {
@@ -179,7 +184,7 @@ const EditBlog = () => {
                                         </div>
                                         <div className="form-group">
                                             <label>Content:</label>
-                                            <textarea className="form-control" name="content" value={formData.content} onChange={handleChange} />
+                                            <textarea rows={10} className="form-control" name="content" value={formData.content} onChange={handleChange} />
                                         </div>
                                         <div className="form-group">
                                             <label>Author:</label>
@@ -189,7 +194,8 @@ const EditBlog = () => {
                                             <label>Image:</label>
                                             <input type="file" className="form-control-file" name="image" onChange={handleChange} />
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Update</button>
+                                        <button type="submit" className="btn btn-primary" >Update</button><br/><br/>
+
 
                                     </form>
                                 </div>
@@ -202,10 +208,10 @@ const EditBlog = () => {
                     {/* /.content */}
                 </div>
                 <footer className="main-footer">
-                    <strong>Copyright © 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+                    <strong>Copyright © 2014-2021.</strong>
                     All rights reserved.
                     <div className="float-right d-none d-sm-inline-block">
-                        <b>New Decade </b>
+                        <b>LaundryStore </b>
                     </div>
                 </footer>
             </div>

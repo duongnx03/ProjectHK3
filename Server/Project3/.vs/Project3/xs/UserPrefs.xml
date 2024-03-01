@@ -1,3 +1,36 @@
 ﻿<Properties StartupConfiguration="{561A7192-982A-4DDD-93A3-29CBC622E937}|https">
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Project3 PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/BlogPost.cs">
+    <Files>
+      <File FileName="Models/BlogPost.cs" Line="34" Column="1" />
+      <File FileName="Models/User.cs" />
+      <File FileName="IServices/IBlogRepo.cs" />
+      <File FileName="Services/UserRepo.cs" />
+      <File FileName="Services/BlogRepo.cs" Line="146" Column="10" />
+      <File FileName="Controllers/BlogController.cs" Line="98" Column="17" />
+      <File FileName="Data/DatabaseContext.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Project3">
+            <Node name="Project3" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="BlogPost.cs" selected="True" />
+              </Node>
+              <Node name="Services" expanded="True" />
+              <Node name="wwwroot" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
 </Properties>

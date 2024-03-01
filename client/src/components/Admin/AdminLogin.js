@@ -22,7 +22,7 @@ const AdminLogin = () => {
             if (response.status === 200) {
                 console.log("Login successful");
                 // Redirect or handle success scenario
-                navigate("/admin/blog")
+                navigate("/admin/blogs")
             } else {
                 throw new Error("Login failed. Invalid Username or Password.");
             }

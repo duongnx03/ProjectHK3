@@ -12,7 +12,7 @@ using Project3.Data;
 namespace Project3.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240227165041_InitialCreate")]
+    [Migration("20240301124242_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace Project3.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(5000)
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DatePublished")
@@ -63,8 +63,8 @@ namespace Project3.Migrations
                             BlogPostId = 1,
                             Author = "John Doe",
                             Content = "This is the content of the first blog post.",
-                            DatePublished = new DateTime(2024, 2, 20, 16, 50, 41, 878, DateTimeKind.Utc).AddTicks(6330),
-                            ImageUrl = "sample.jpg",
+                            DatePublished = new DateTime(2024, 2, 23, 12, 42, 42, 295, DateTimeKind.Utc).AddTicks(9820),
+                            ImageUrl = "cat.jpg",
                             Title = "First Blog Post"
                         },
                         new
@@ -72,9 +72,145 @@ namespace Project3.Migrations
                             BlogPostId = 2,
                             Author = "Jane Doe",
                             Content = "This is the content of the second blog post.",
-                            DatePublished = new DateTime(2024, 2, 22, 16, 50, 41, 878, DateTimeKind.Utc).AddTicks(6340),
-                            ImageUrl = "sample.jpg",
+                            DatePublished = new DateTime(2024, 2, 25, 12, 42, 42, 295, DateTimeKind.Utc).AddTicks(9830),
+                            ImageUrl = "cat.jpg",
                             Title = "Second Blog Post"
+                        });
+                });
+
+            modelBuilder.Entity("Project3.Models.Membership", b =>
+                {
+                    b.Property<int>("MembershipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MembershipId"));
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateReigsterMembership")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Phone")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("MembershipId");
+
+                    b.ToTable("Membership");
+                });
+
+            modelBuilder.Entity("Project3.Models.OrderQuantity", b =>
+                {
+                    b.Property<int>("OrderQuantityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderQuantityId"));
+
+                    b.Property<string>("CustomerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeToFinishWashing")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("WashTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("OrderQuantityId");
+
+                    b.ToTable("OrderQuantitys");
+                });
+
+            modelBuilder.Entity("Project3.Models.OrderWeight", b =>
+                {
+                    b.Property<int>("OrderWeightId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderWeightId"));
+
+                    b.Property<string>("CustomerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeToFinishWashing")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("WashTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderWeightId");
+
+                    b.ToTable("OrderWeights");
+                });
+
+            modelBuilder.Entity("Project3.Models.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<string>("ProductDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ProductDescription = "The amount that you have to pay should be based on your kilograms",
+                            ProductName = "Washing by Kilograms"
                         });
                 });
 
@@ -162,9 +298,9 @@ namespace Project3.Migrations
                             Email = "onlinelaundry.126@gmail.com",
                             FullName = "Online Laundry",
                             LastActivity = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Password = "$2a$11$sw2gRv5s/a30iP99bb/KquheqwpSJfNZW7mrEJD1bBuLTsEgZD/N.",
+                            Password = "$2a$11$zjjPtiv3b3KPrxj9eKg.yesAUWU.1fB5PTcf0OGzTxaebB3b7xNsW",
                             Phone = "0123456789",
-                            RegisterTime = new DateTime(2024, 2, 27, 23, 50, 41, 878, DateTimeKind.Local).AddTicks(5460),
+                            RegisterTime = new DateTime(2024, 3, 1, 19, 42, 42, 295, DateTimeKind.Local).AddTicks(8890),
                             Role = "Admin",
                             UserName = "admin",
                             isBan = false,

@@ -14,16 +14,16 @@ import ForgotPassword from './components/ForgotPassword';
 import { AppProvider } from './components/AppContext';
 import UserActivityTracker from './components/UserActivityTracker';
 import Logout from './components/Logout';
-// import ProductList from './components/ProductList';
-// import AddProduct from './components/AddProduct';
-// import EditProduct from './components/EditProduct';
+import ProductList from './components/ProductList';
+import AddProduct from './components/AddProduct';
+import EditProduct from './components/EditProduct';
 import OrderQuantityForm from './components/OrderQuantityForm';
 import OrderQuantityList from './components/OrderQuantityList';
 import OrderWeightForm from './components/OrderWeightForm';
 import OrderWeightList from './components/OrderWeightList';
-// import AddMembership from './components/AddMembership';
+import AddMembership from './components/AddMembership';
 import MembershipList from './components/MembershipList';
-// import RenewMembership from './components/RenewMembership';
+import RenewMembership from './components/RenewMembership';
 import OrderMembership from './components/OrderMembership';
 import CreateBlog from './components/Admin/CreateBlog';
 import EditBlog from './components/Admin/EditBlog';
@@ -53,16 +53,16 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/profile/*" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
-          {/* <Route path="/productlist" element={<ProductList />} /> */}
-          {/* <Route path="/addproduct" element={<AddProduct />} />
-          <Route path="/editproduct" element={<EditProduct />} /> */}
+          <Route path="/productlist" element={<ProductList />} />
+          <Route path="/addproduct" element={<AddProduct />} /> 
+          <Route path="/editproduct" element={<EditProduct />} /> 
           <Route path="/orderquantityform" element={<OrderQuantityForm />} />
           <Route path="/orderquantitylist" element={<OrderQuantityList />} />
           <Route path="/orderweightform" element={<OrderWeightForm />} />
           <Route path="/orderweightlist" element={<OrderWeightList />} />
-          {/* <Route path="/addmembership" element={<AddMembership />} /> */}
+          <Route path="/addmembership" element={<AddMembership />} />
           <Route path="/membershiplist" element={<MembershipList />} />
-          {/* <Route path="/renewmembership" element={<RenewMembership />} /> */}
+          <Route path="/renewmembership" element={<RenewMembership />} />
           <Route path="/ordermembership" element={<OrderMembership />} />
           <Route path="/ordermembership" element={<OrderMembership />} />
 

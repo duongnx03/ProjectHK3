@@ -5,6 +5,7 @@ import axios from 'axios';
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +20,16 @@ const BlogList = () => {
     };
     fetchData();
   }, []);
+
+  const handleSearch = async (event) => {
+    event.preventDefault(); // Prevent form submission
+    try {
+      const response = await axios.get(`https://localhost:7240/api/blog/search?keyword=${searchTerm}`);
+      setBlogs(response.data);
+    } catch (error) {
+      console.error('Error searching blogs:', error);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -138,32 +149,18 @@ const BlogList = () => {
           {/* Main content */}
           <section className="content">
             <div className="container-fluid">
-              <form action="enhanced-results.html">
+              <form onSubmit={handleSearch}>
                 <div className="row">
                   <div className="col-md-10 offset-md-1">
-                    <div className="row">
-                      {/* <div className="col-3">
-                        <div className="form-group">
-                          <label>Sort By Name:</label>
-                          <select className="select2" style={{ width: '100%' }}>
-                            <option selected>ASC</option>
-                            <option>DESC</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-3">
-                        <div className="form-group">
-                          <label>Sort By Date:</label>
-                          <select className="select2" style={{ width: '100%' }}>
-                            <option selected>ASC</option>
-                            <option>DESC</option>
-                          </select>
-                        </div>
-                      </div> */}
-                    </div>
                     <div className="form-group">
                       <div className="input-group input-group-lg">
-                        <input type="search" className="form-control form-control-lg" placeholder="Search" />
+                        <input
+                          type="search"
+                          className="form-control form-control-lg"
+                          placeholder="Search"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+                        />
                         <div className="input-group-append">
                           <button type="submit" className="btn btn-lg btn-default">
                             <i className="fa fa-search" />
@@ -209,7 +206,7 @@ const BlogList = () => {
                               <td>{new Date(blog.datePublished).toLocaleString()}</td>
                               <td>
                                 {blog.imageUrl && (
-                                  <img src={blog.imageUrl} alt="Blog" style={{ width: '100px', height: 'auto' }} />
+                                  <img src={`https://localhost:7240/images/${blog.imageUrl}`} alt="Blog" style={{ width: '100px', height: 'auto' }} />
                                 )}
                               </td>
                               <td>
@@ -222,7 +219,7 @@ const BlogList = () => {
                         </tbody>
                       </table>
                     </div>
-                    <div class="row">
+                    {/* <div class="row">
                       <div class="col-sm-12 col-md-5">
                       </div>
                       <div class="col-sm-12 col-md-7">
@@ -236,7 +233,7 @@ const BlogList = () => {
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     {/* /.card-body */}
                   </div>
                 </div>
@@ -249,10 +246,10 @@ const BlogList = () => {
           {/* /.content */}
         </div>
         <footer className="main-footer">
-          <strong>Copyright © 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+          <strong>Copyright © 2014-2021.</strong>
           All rights reserved.
           <div className="float-right d-none d-sm-inline-block">
-            <b>New Decade </b>
+            <b>LaundryStore </b>
           </div>
         </footer>
       </div>
