@@ -57,7 +57,16 @@ useEffect(() => {
       setError('Weight must be a non-negative number.');
     }
   };
-
+  const sendOrderConfirmationEmail = async () => {
+    try {
+      const response = await axios.post('https://localhost:7240/api/Order/sendOrderConfirmationEmail', {
+        customerEmail: userInfo.email
+      });
+      console.log('Email sent successfully:', response.data);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
