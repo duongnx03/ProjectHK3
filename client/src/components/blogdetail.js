@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import './css/bootstrap.min.css';
-import './css/style.css';
-import { Link } from "react-router-dom";
 import axios from 'axios';
+import { Link, useParams } from "react-router-dom";
 
-const Blog = ({ }) => {
+const BlogDetail = () => {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const { id } = useParams();
 
-  const [blogs, setBlogs] = useState([]);
+  const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://localhost:7240/api/blog/');
-        setBlogs(response.data);
+        const response = await axios.get(`https://localhost:7240/api/blog/${id}`);
+        setBlog(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -22,9 +21,10 @@ const Blog = ({ }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  return (
+
+return (
     <div>
       {/* Google Web Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,36 +65,24 @@ const Blog = ({ }) => {
       {/* Blog Start */}
       <div className="container-fluid py-5">
         <div className="container py-5">
-          <div className="text-center mb-5 wow fadeInUp" data-wow-delay=".3s">
-            <h5 className="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block border border-2 border-primary">Our Blog</h5>
-            <h1 className="display-5">Latest Blog &amp; News</h1>
+          <div className="text-center mb-5">
+            {blog ? (
+              <>
+                <h6 className="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block border border-2 border-primary">{blog.datePublished}</h6>
+                <h1 className="display-5">{blog.title}</h1>
+                <h6>By {blog.author}</h6>
+              </>
+            ) : (
+              <h1>Loading...</h1>
+            )}
           </div>
           <div className="row">
-            {blogs.map(blog => (
-              <div className="col-lg-3 col-md-6 mb-4" key={blog.id}>
-                <div className="blog-item">
-                  <img src={blog.imageUrl} className="img-fluid rounded-top" alt={blog.title} />
-                  <div className="rounded-bottom bg-light">
-                    <div className="d-flex justify-content-between p-4 pb-2">
-                      <span className="pe-2 text-dark"><i className="fa fa-user me-2" />By {blog.author}</span>
-                      <span className="text-dark"><i className="fas fa-calendar-alt me-2" /></span>
-                    </div>
-                    <div className="px-4 pb-0">
-                      <h4>{blog.title}</h4>
-                      <p>{blog.content.substring(0, 100)}{blog.content.length > 100 && "..."}</p>
-                    </div>
-                    <div className="p-4 py-2 d-flex justify-content-between bg-primary rounded-bottom blog-btn">
-                      <Link to={`/blog/${blog.blogPostId}`} className="btn btn-primary border-0">Learn More</Link>
-                      <a href="#" className="my-auto text-dark"><i className="fa fa-comments me-2" />{blog.comments} Comments</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <div className="col-lg-12">
+              <p>{blog && blog.content}</p>
+            </div>
           </div>
         </div>
       </div>
-      {/* Blog End */}
       {/* Footer Start */}
       <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay=".3s">
         <div className="container py-5">
@@ -153,6 +141,6 @@ const Blog = ({ }) => {
     </div>
 
   );
-}
+}            
 
-export default Blog;
+export default BlogDetail

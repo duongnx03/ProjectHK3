@@ -13,23 +13,46 @@ const CreateBlog = () => {
     });
 
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({}); // State mới để lưu trữ các thông báo lỗi
 
     const handleChange = (e) => {
         if (e.target.name === 'image') {
             setFormData({ ...formData, image: e.target.files[0] }); // Update image with selected file
         } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrors({ ...errors, [e.target.name]: '' }); // Xóa thông báo lỗi khi người dùng thay đổi giá trị trường
         }
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationErrors = {};
+        if (!formData.title) {
+            validationErrors.title = 'Title is required';
+        }
+        if (!formData.content) {
+            validationErrors.content = 'Content is required';
+        }
+        if (!formData.author) {
+            validationErrors.author = 'Author is required';
+        }
+
+        const regex = /^[a-zA-Z0-9À-Ỹà-ỹ\s]*$/;
+        if (formData.title && !regex.test(formData.title)) {
+            validationErrors.title = 'Title must contain only letters, numbers, and diacritics';
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Ngăn chặn việc gửi yêu cầu nếu có lỗi
+        }
+
         try {
             const formDataToSend = new FormData();
             formDataToSend.append('title', formData.title);
             formDataToSend.append('content', formData.content);
             formDataToSend.append('author', formData.author);
-            formDataToSend.append('dateTime', formData.dateTime);
             formDataToSend.append('image', formData.image);
 
             await axios.post('https://localhost:7240/api/blog/', formDataToSend);
@@ -153,14 +176,20 @@ const CreateBlog = () => {
                                         <div className="form-group">
                                             <label>Title:</label>
                                             <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} />
+                                            {errors.title && <small className="text-danger">{errors.title}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Content:</label>
                                             <textarea className="form-control" name="content" value={formData.content} onChange={handleChange} />
+                                            {formData.content.length > 200 && (
+                                                <p className="text-muted">{formData.content.substring(0, 200)}...</p>
+                                            )}
+                                            {errors.content && <small className="text-danger">{errors.content}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Author:</label>
                                             <input type="text" className="form-control" name="author" value={formData.author} onChange={handleChange} />
+                                            {errors.author && <small className="text-danger">{errors.author}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Image:</label>
