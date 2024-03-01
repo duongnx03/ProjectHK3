@@ -1,12 +1,32 @@
 {
   "Files": [
     {
-      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/80f36027-97fd-48c5-9d10-62fcb8b364e2_hinh1.jpeg",
-      "PackagePath": "staticwebassets/images/80f36027-97fd-48c5-9d10-62fcb8b364e2_hinh1.jpeg"
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
     },
     {
-      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/db8a5153-52c7-466e-9947-58315f0af405_hinh1.jpeg",
-      "PackagePath": "staticwebassets/images/db8a5153-52c7-466e-9947-58315f0af405_hinh1.jpeg"
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/4f8d8d20-edc0-4a1f-97c8-95eecf4a4160.jpeg",
+      "PackagePath": "staticwebassets/images/4f8d8d20-edc0-4a1f-97c8-95eecf4a4160.jpeg"
+    },
+    {
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/63e49cd7-c14a-440f-8c1e-5e9bd26a5af7.jpeg",
+      "PackagePath": "staticwebassets/images/63e49cd7-c14a-440f-8c1e-5e9bd26a5af7.jpeg"
+    },
+    {
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/7b11df9e-c115-455f-9a02-b82cdfb36742.jpeg",
+      "PackagePath": "staticwebassets/images/7b11df9e-c115-455f-9a02-b82cdfb36742.jpeg"
+    },
+    {
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/81c03bf7-7329-4e67-8cd4-fd8597420f0f.webp",
+      "PackagePath": "staticwebassets/images/81c03bf7-7329-4e67-8cd4-fd8597420f0f.webp"
+    },
+    {
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/b277aa33-2e16-415d-ac6d-b9b2810ee99a.png",
+      "PackagePath": "staticwebassets/images/b277aa33-2e16-415d-ac6d-b9b2810ee99a.png"
+    },
+    {
+      "Id": "/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/wwwroot/images/c8c093bf-614a-4445-aaea-b4dce3ed02f1.jpeg",
+      "PackagePath": "staticwebassets/images/c8c093bf-614a-4445-aaea-b4dce3ed02f1.jpeg"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.Project3.Microsoft.AspNetCore.StaticWebAssets.props",

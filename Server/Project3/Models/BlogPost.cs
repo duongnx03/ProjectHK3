@@ -24,10 +24,6 @@ namespace Project3.Models
         public DateTime? DatePublished { get; set; } = DateTime.UtcNow;
 
         public string? ImageUrl { get; set; }
-
-        [NotMapped]
-        public IFormFile? UploadFile { get; set; }
-
     }
 }
 

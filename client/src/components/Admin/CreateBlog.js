@@ -196,7 +196,7 @@ const CreateBlog = () => {
                                             <input type="file" className="form-control-file" name="image" onChange={handleChange} />
                                             {imagePreview && <img src={imagePreview} alt="Preview" style={{ marginTop: '10px', maxWidth: '200px' }} />} {/* Hiển thị ảnh được chọn */}
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Create</button>
+                                        <button type="submit" className="btn btn-primary">Create</button> <br/><br/>
                                     </form>
                                 </div>
                                 {/* /.col */}

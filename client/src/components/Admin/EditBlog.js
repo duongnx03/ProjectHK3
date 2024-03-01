@@ -9,11 +9,14 @@ const EditBlog = () => {
         title: '',
         content: '',
         author: '',
-        image: null
+        image: null,
+        imageUrl: '' // Thêm trường này để lưu đường dẫn hình ảnh
     });
 
     const navigate = useNavigate();
-    const { id } = useParams(); 
+    const { id } = useParams(); // Lấy id từ URL hiện tại
+    const [errors, setErrors] = useState({}); // State mới để lưu trữ các thông báo lỗi
+    const [imagePreview, setImagePreview] = useState(null); 
 
     useEffect(() => {
         if (id) {
@@ -25,7 +28,7 @@ const EditBlog = () => {
         try {
             const response = await axios.get(`https://localhost:7240/api/blog/${id}`);
             const { title, content, author, imageUrl } = response.data;
-            setFormData({ blogPostId: id, title, content, author, image: null });
+            setFormData({ ...formData, blogPostId: id, title, content, author, imageUrl }); // Lưu URL hình ảnh
         } catch (error) {
             console.error('Lỗi khi lấy bài đăng blog:', error);
         }
@@ -33,14 +36,37 @@ const EditBlog = () => {
 
     const handleChange = (e) => {
         if (e.target.name === 'image') {
-            setFormData({ ...formData, image: e.target.files[0] });
+            const file = e.target.files[0];
+            setFormData({ ...formData, image: file }); // Update image with selected file
+            setImagePreview(URL.createObjectURL(file)); // Create preview URL for the selected image
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
+            setErrors({ ...errors, [e.target.name]: '' }); // Xóa thông báo lỗi khi người dùng thay đổi giá trị trường
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationErrors = {};
+        if (!formData.title) {
+            validationErrors.title = 'Title is required';
+        }
+        if (!formData.content) {
+            validationErrors.content = 'Content is required';
+        }
+        if (!formData.author) {
+            validationErrors.author = 'Author is required';
+        }
+
+        const regex = /^[a-zA-Z0-9À-Ỹà-ỹ\s]*$/;
+        if (formData.title && !regex.test(formData.title)) {
+            validationErrors.title = 'Title must contain only letters, numbers, and diacritics';
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Ngăn chặn việc gửi yêu cầu nếu có lỗi
+        }
         try {
             const formDataToSend = new FormData();
             formDataToSend.append('blogPostId', formData.blogPostId);
@@ -49,19 +75,11 @@ const EditBlog = () => {
             formDataToSend.append('author', formData.author);
             formDataToSend.append('image', formData.image);
     
-            if (id) {
-                await axios.put(`https://localhost:7240/api/blog/${id}`, formDataToSend, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            } else {
-                await axios.post('https://localhost:7240/api/blog/', formDataToSend, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            }
+            await axios.put(`https://localhost:7240/api/blog/${id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             navigate('/admin/blogs');
         } catch (error) {
             console.error('Lỗi khi tạo/chỉnh sửa bài đăng blog:', error);
@@ -181,18 +199,22 @@ const EditBlog = () => {
                                         <div className="form-group">
                                             <label>Title:</label>
                                             <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} />
+                                            {errors.title && <small className="text-danger">{errors.title}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Content:</label>
                                             <textarea rows={10} className="form-control" name="content" value={formData.content} onChange={handleChange} />
+                                            {errors.content && <small className="text-danger">{errors.content}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Author:</label>
                                             <input type="text" className="form-control" name="author" value={formData.author} onChange={handleChange} />
+                                            {errors.author && <small className="text-danger">{errors.author}</small>} {/* Hiển thị thông báo lỗi */}
                                         </div>
                                         <div className="form-group">
                                             <label>Image:</label>
                                             <input type="file" className="form-control-file" name="image" onChange={handleChange} />
+                                            {imagePreview && <img src={imagePreview} alt="Preview" style={{ marginTop: '10px', maxWidth: '200px' }} />} {/* Hiển thị ảnh được chọn */}
                                         </div>
                                         <button type="submit" className="btn btn-primary" >Update</button><br/><br/>
 

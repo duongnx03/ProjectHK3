@@ -11,7 +11,8 @@ const BlogList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://localhost:7240/api/blog/');
-        setBlogs(response.data);
+        const sortedBlogs = response.data.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
+        setBlogs(sortedBlogs);
       } catch (error) {
         console.log('Error fetching data', error);
       } finally {
@@ -25,7 +26,8 @@ const BlogList = () => {
     event.preventDefault(); // Prevent form submission
     try {
       const response = await axios.get(`https://localhost:7240/api/blog/search?keyword=${searchTerm}`);
-      setBlogs(response.data);
+      const sortedBlogs = response.data.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
+      setBlogs(sortedBlogs);
     } catch (error) {
       console.error('Error searching blogs:', error);
     }
@@ -43,6 +45,7 @@ const BlogList = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div>
@@ -189,6 +192,7 @@ const BlogList = () => {
                       <table id="example2" className="table table-bordered table-hover">
                         <thead>
                           <tr>
+                            <th>Index</th>
                             <th>Title</th>
                             <th>Content</th>
                             <th>Author(s)</th>
@@ -198,15 +202,16 @@ const BlogList = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {blogs.map((blog) => (
+                          {blogs.map((blog, index) => (
                             <tr key={blog.id}>
+                              <td>{index + 1}</td> {/* Index column */}
                               <td>{blog.title}</td>
                               <td>{blog.content.substring(0, 100)}{blog.content.length > 100 && "..."}</td>
                               <td>{blog.author}</td>
                               <td>{new Date(blog.datePublished).toLocaleString()}</td>
                               <td>
                                 {blog.imageUrl && (
-                                  <img src={`https://localhost:7240/images/${blog.imageUrl}`} alt="Blog" style={{ width: '100px', height: 'auto' }} />
+                                  <img src={blog.imageUrl} alt="Blog" style={{ width: '100px', height: 'auto' }} />
                                 )}
                               </td>
                               <td>

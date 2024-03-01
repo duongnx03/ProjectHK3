@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project3.IServices;
 using Project3.Models;
@@ -9,12 +10,11 @@ namespace Project3.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-
         private readonly IBlogRepo _blogRepo;
 
         public BlogController(IBlogRepo blogRepo)
         {
-            this._blogRepo = blogRepo;
+            _blogRepo = blogRepo;
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@ namespace Project3.Controllers
                 var blogPost = await _blogRepo.GetBlogPostById(id);
                 if (blogPost == null)
                 {
-                    return NotFound($"Blog post with id {id} not found");
+                    return NotFound();
                 }
                 return Ok(blogPost);
             }
@@ -50,25 +50,12 @@ namespace Project3.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBlogPost([FromForm] BlogPost blogPost)
+        public async Task<IActionResult> AddBlogPost([FromForm] BlogPost blogPost, IFormFile image)
         {
             try
             {
-                // Kiểm tra các trường bắt buộc
-                if (string.IsNullOrEmpty(blogPost.Title) || string.IsNullOrEmpty(blogPost.Content) || string.IsNullOrEmpty(blogPost.Author))
-                {
-                    return BadRequest("Title, Content, and Author are required fields.");
-                }
-
-                // Tiếp tục xử lý như bình thường
-                var addedBlogPostId = await _blogRepo.AddBlogPost(blogPost);
-                if (addedBlogPostId == 0)
-                {
-                    return BadRequest("Failed to add blog post");
-                }
-
-                // Trả về CreatedAtAction với thông tin về blog post vừa thêm vào
-                return CreatedAtAction(nameof(GetBlogPostById), new { id = addedBlogPostId }, addedBlogPostId);
+                var id = await _blogRepo.AddBlogPost(blogPost, image);
+                return CreatedAtAction(nameof(GetBlogPostById), new { id }, blogPost);
             }
             catch (Exception ex)
             {
@@ -77,17 +64,17 @@ namespace Project3.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlogPost(int id, [FromBody] BlogPost blogPost)
+        public async Task<IActionResult> UpdateBlogPost(int id, [FromForm] BlogPost blogPost, IFormFile image)
         {
             try
             {
-                var existingBlogPostId = await _blogRepo.UpdateBlogPost(blogPost);
-                if (existingBlogPostId == 0)
+                if (id != blogPost.BlogPostId)
                 {
-                    return NotFound($"Blog post with id {id} not found");
+                    return BadRequest("BlogPostId mismatch");
                 }
 
-                return Ok(existingBlogPostId);
+                await _blogRepo.UpdateBlogPost(blogPost, image);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -100,13 +87,12 @@ namespace Project3.Controllers
         {
             try
             {
-                var deletedBlogPostId = await _blogRepo.DeleteBlogPost(id);
-                if (deletedBlogPostId == 0)
+                var deletedId = await _blogRepo.DeleteBlogPost(id);
+                if (deletedId == -1)
                 {
-                    return NotFound($"Blog post with id {id} not found");
+                    return NotFound();
                 }
-
-                return Ok(deletedBlogPostId);
+                return Ok(deletedId);
             }
             catch (Exception ex)
             {
@@ -129,4 +115,3 @@ namespace Project3.Controllers
         }
     }
 }
-

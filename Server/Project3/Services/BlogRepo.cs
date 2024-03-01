@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Project3.Data;
 using Project3.IServices;
@@ -6,15 +12,15 @@ using Project3.Models;
 
 namespace Project3.Services
 {
-	public class BlogRepo : IBlogRepo	{
+    public class BlogRepo : IBlogRepo
+    {
         private readonly DatabaseContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _environment;
 
-        public BlogRepo(DatabaseContext context, IWebHostEnvironment webHostEnvironment)
+        public BlogRepo(DatabaseContext context, IWebHostEnvironment environment)
         {
-            this._context = context;
-            this._webHostEnvironment = webHostEnvironment;
-
+            _context = context;
+            _environment = environment;
         }
 
         public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
@@ -25,8 +31,7 @@ namespace Project3.Services
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error getting all blog posts");
-                return null;
+                throw new Exception("Error occurred while retrieving blog posts", ex);
             }
         }
 
@@ -38,19 +43,26 @@ namespace Project3.Services
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error getting blog post by ID");
-                return null;
+                throw new Exception($"Error occurred while retrieving blog post with ID {blogPostId}", ex);
             }
         }
 
-        public async Task<int> AddBlogPost(BlogPost blogPost)
+        public async Task<int> AddBlogPost(BlogPost blogPost, IFormFile image)
         {
             try
             {
-                // Xử lý upload ảnh
-                if (blogPost.UploadFile != null)
+                if (image != null && image.Length > 0)
                 {
-                    blogPost.ImageUrl = await UploadImage(blogPost.UploadFile);
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "images");
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    blogPost.ImageUrl = "/images/" + fileName;
                 }
 
                 _context.BlogPosts.Add(blogPost);
@@ -59,41 +71,36 @@ namespace Project3.Services
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error adding blog post");
-                return 0;
+                throw new Exception("Error occurred while adding blog post", ex);
             }
         }
 
-        public async Task<int> UpdateBlogPost(BlogPost blogPost)
+        public async Task<int> UpdateBlogPost(BlogPost blogPost, IFormFile image)
         {
             try
             {
-                var existingPost = await GetBlogPostById(blogPost.BlogPostId);
+                _context.Entry(blogPost).State = EntityState.Modified;
 
-                if (existingPost == null)
+                if (image != null && image.Length > 0)
                 {
-                    return 0;
-                    throw new InvalidOperationException("Blog post not found");
-                }
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "images");
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                    var filePath = Path.Combine(uploadsFolder, fileName);
 
-                // Xử lý upload ảnh
-                if (blogPost.UploadFile != null)
-                {
-                    existingPost.ImageUrl = await UploadImage(blogPost.UploadFile);
-                }
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
 
-                existingPost.Title = blogPost.Title;
-                existingPost.Content = blogPost.Content;
-                existingPost.Author = blogPost.Author;
-                existingPost.DatePublished = blogPost.DatePublished;
+                    blogPost.ImageUrl = "/images/" + fileName;
+                }
 
                 await _context.SaveChangesAsync();
-                return existingPost.BlogPostId;
+                return blogPost.BlogPostId;
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error updating blog post");
-                return 0;
+                throw new Exception($"Error occurred while updating blog post with ID {blogPost.BlogPostId}", ex);
             }
         }
 
@@ -102,68 +109,32 @@ namespace Project3.Services
             try
             {
                 var blogPost = await _context.BlogPosts.FindAsync(blogPostId);
-
-                if (blogPost == null)
+                if (blogPost != null)
                 {
-                    throw new InvalidOperationException("Blog post not found");
+                    _context.BlogPosts.Remove(blogPost);
+                    await _context.SaveChangesAsync();
+                    return blogPostId;
                 }
-
-                _context.BlogPosts.Remove(blogPost);
-                await _context.SaveChangesAsync();
-                return blogPostId;
+                return -1; // Hoặc một giá trị khác đại diện cho việc không tìm thấy bài đăng
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error deleting blog post");
-                return 0;
+                throw new Exception($"Error occurred while deleting blog post with ID {blogPostId}", ex);
             }
         }
 
-        private async Task<string> UploadImage(IFormFile file)
+        public async Task<IEnumerable<BlogPost>> SearchPosts(string keyword)
         {
             try
             {
-                // Lấy đường dẫn thư mục wwwroot/images bằng cách sử dụng IWebHostEnvironment
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                // Trả về URL
-                return $"/images/{uniqueFileName}";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error uploading image", ex);
-            }
-        }
-
-        private void HandleException(Exception ex, string message)
-        {
-            Console.WriteLine($"{message}: {ex.Message}");
-        }
-
-        public async Task<List<BlogPost>> SearchPosts(string keyword)
-        {
-            try
-            {
-                // Tìm kiếm bài viết blog dựa trên từ khóa
-                var result = await _context.BlogPosts
+                return await _context.BlogPosts
                     .Where(post => post.Title.Contains(keyword) || post.Content.Contains(keyword) || post.Author.Contains(keyword))
                     .ToListAsync();
-
-                return result;
             }
             catch (Exception ex)
             {
-                HandleException(ex, "Error searching blog posts");
-                return null;
+                throw new Exception("Error occurred while searching for blog posts", ex);
             }
         }
     }
 }
-
