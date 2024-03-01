@@ -29,7 +29,6 @@ const Service = ({ }) => {
                             <div className="navbar-nav ms-auto">
                                 <Link to="/index" className="nav-item nav-link ">Home</Link>
                                 <Link to="/service" className="nav-item nav-link active">Service</Link>
-                                <Link to="/contact" className="nav-item nav-link">Contact</Link>
                                 <Link to="/blog" className="nav-item nav-link">Blog</Link>
                                 <Link to="/profile/general" className="nav-item nav-link">Profile</Link>
                                 {isLoggedIn ? (
@@ -54,38 +53,28 @@ const Service = ({ }) => {
                         <div className="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".3s">
                             <div className="rounded bg-light pricing-item">
                                 <div className="bg-primary py-3 px-5 text-center rounded-top border-bottom border-dark">
-                                    <h2 className="m-0">Basic</h2>
+                                    <h2 className="m-0">Laundry Quantity</h2>
                                 </div>
                                 <div className="px-4 py-5 text-center bg-primary pricing-label mb-2">
-                                    <h1 className="mb-0">$60<span className="text-secondary fs-5 fw-normal">/mo</span></h1>
-                                    <p className="mb-0">Basic Pest Control</p>
+                                <h1 className="mb-0">$2<span className="text-secondary fs-5 fw-normal">/quantity</span></h1>  
                                 </div>
                                 <div className="p-4 text-center fs-5">
-                                    <p><i className="fa fa-check text-success me-2" />Household pests Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Rodent Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Re-Service at No-Charge</p>
-                                    <p><i className="fa fa-times text-danger me-2" />Termite Control</p>
-                                    <p><i className="fa fa-times text-danger me-2" />Mosquito Reduction</p>
-                                    <button type="button" className="btn btn-primary border-0 rounded-pill px-4 py-3 mt-3">Get Started</button>
+                                <p><i className="fa fa-check text-success me-2" />Wash According To The Quantity You Want</p>
+                                    <Link to="/orderquantityform" className="nav-item nav-link">Get Started</Link>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".5s">
+                        <div className="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".3s">
                             <div className="rounded bg-light pricing-item">
-                                <div className="bg-dark py-3 px-5 text-center rounded-top border-bottom border-primary">
-                                    <h2 className="m-0 text-primary">Standerd</h2>
+                                <div className="bg-primary py-3 px-5 text-center rounded-top border-bottom border-dark">
+                                    <h2 className="m-0">Laundry Weight</h2>
                                 </div>
-                                <div className="px-4 py-5 text-center bg-dark pricing-label pricing-featured mb-2">
-                                    <h1 className="mb-0 text-primary">$80<span className="fs-5 fw-normal">/mo</span></h1>
-                                    <p className="mb-0 text-white">Standard Pest Control</p>
+                                <div className="px-4 py-5 text-center bg-primary pricing-label mb-2">
+                                <h1 className="mb-0">$10<span className="text-secondary fs-5 fw-normal">/weight</span></h1>  
                                 </div>
                                 <div className="p-4 text-center fs-5">
-                                    <p><i className="fa fa-check text-success me-2" />Household pests Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Rodent Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Re-Service at No-Charge</p>
-                                    <p><i className="fa fa-check text-success me-2" />Termite Control</p>
-                                    <p><i className="fa fa-times text-danger me-2" />Mosquito Reduction</p>
-                                    <button type="button" className="btn btn-dark border-0 text-primary rounded-pill px-4 py-3 mt-3">Get Started</button>
+                                <p><i className="fa fa-check text-success me-2" />Wash According To The Weight You Want</p>
+                                    <Link to="/orderweightform" className="nav-item nav-link">Get Started</Link>
                                 </div>
                             </div>
                         </div>
@@ -95,17 +84,13 @@ const Service = ({ }) => {
                                     <h2 className="m-0">Premium</h2>
                                 </div>
                                 <div className="px-4 py-5 text-center bg-primary pricing-label mb-2">
-                                    <h1 className="mb-0">$120<span className="text-secondary fs-5 fw-normal">/mo</span></h1>
+                                    <h1 className="mb-0">$30<span className="text-secondary fs-5 fw-normal">/mo</span></h1>
                                     <p className="mb-0">Premium Pest Control</p>
                                 </div>
                                 <div className="p-4 text-center fs-5">
                                     <p><i className="fa fa-check text-success me-2" />Household pests Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Rodent Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Re-Service at No-Charge</p>
-                                    <p><i className="fa fa-check text-success me-2" />Termite Control</p>
-                                    <p><i className="fa fa-check text-success me-2" />Mosquito Reduction</p>
-                                    <button type="button" className="btn btn-primary border-0 rounded-pill px-4 py-3 mt-3">Get Started</button>
-                                </div>
+                                    <Link to="/addmembership" className="nav-item nav-link">Register Membership</Link>
+                                    <Link to="/renewmembership" className="nav-item nav-link">Renew Membership</Link>                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +112,6 @@ const Service = ({ }) => {
                                 <h4 className="text-white fw-bold mb-4">Usefull Link</h4>
                                 <div className="d-flex flex-column align-items-start">
                                     <Link to="/index" className="nav-item nav-link">Home</Link>
-                                    <Link to="/contact" className="nav-item nav-link">Contact</Link>
                                     <Link to="/blog" className="nav-item nav-link">Blog</Link>
                                 </div>
                             </div>
