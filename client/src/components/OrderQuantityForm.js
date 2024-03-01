@@ -44,21 +44,29 @@ useEffect(() => {
     if (!Number.isNaN(parseInt(quantityValue)) && parseInt(quantityValue) >= 0) {
       setQuantity(quantityValue);
 
-      // Tính toán thời gian giặt và thời gian kết thúc giặt dựa trên quantityValue
       const currentTime = new Date();
-      const timePerUnit = 10; // Phút
+      const timePerUnit = 10; 
       const totalMinutes = parseInt(quantityValue) * timePerUnit;
       const washTime = new Date(currentTime.getTime());
       const timeToFinishWashing = new Date(currentTime.getTime() + totalMinutes * 60000);
 
-      setWashTime(washTime); // Sử dụng đối tượng Date thay vì chuỗi
-      setTimeToFinishWashing(timeToFinishWashing); // Sử dụng đối tượng Date thay vì chuỗi
+      setWashTime(washTime); 
+      setTimeToFinishWashing(timeToFinishWashing);
       setError('');
     } else {
       setError('Quantity must be a non-negative number.');
     }
   };
-
+  const sendOrderConfirmationEmail = async () => {
+    try {
+      const response = await axios.post('https://localhost:7240/api/Order/sendOrderConfirmationEmail', {
+        customerEmail: userInfo.email
+      });
+      console.log('Email sent successfully:', response.data);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
