@@ -197,7 +197,7 @@ const BlogList = () => {
                             <th>Content</th>
                             <th>Author(s)</th>
                             <th>Date Time</th>
-                            <th>Image</th>
+                            {/* <th>Image</th> */}
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -208,12 +208,12 @@ const BlogList = () => {
                               <td>{blog.title}</td>
                               <td>{blog.content.substring(0, 100)}{blog.content.length > 100 && "..."}</td>
                               <td>{blog.author}</td>
-                              <td>{new Date(blog.datePublished).toLocaleString()}</td>
-                              <td>
+                              <td>{new Date(blog.datePublished).toLocaleDateString()}</td>
+                              {/* <td>
                                 {blog.imageUrl && (
                                   <img src={blog.imageUrl} alt="Blog" style={{ width: '100px', height: 'auto' }} />
                                 )}
-                              </td>
+                              </td> */}
                               <td>
                                 {/* Đặt liên kết để chuyển đến trang chỉnh sửa */}
                                 <button><Link to={`/admin/editblog/${blog.blogPostId}`} style={{ color: 'green' }}>Edit</Link></button>

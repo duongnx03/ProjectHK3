@@ -52,5 +52,24 @@ namespace Project3.Controllers
             }
         }
 
+
+        [HttpGet("{id}")] // Endpoint để lấy OrderQuantity theo Id
+        public async Task<IActionResult> GetOrderQuantityById(int id)
+        {
+            try
+            {
+                var orderQuantity = await _orderQuantityRepo.GetOrderQuantityById(id);
+                if (orderQuantity == null)
+                {
+                    return NotFound();
+                }
+                return Ok(orderQuantity);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

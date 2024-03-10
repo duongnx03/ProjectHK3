@@ -73,7 +73,7 @@ const Blog = ({ }) => {
             {blogs.map(blog => (
               <div className="col-lg-3 col-md-6 mb-4" key={blog.id}>
                 <div className="blog-item">
-                  <img src={blog.imageUrl} className="img-fluid rounded-top" alt={blog.title} />
+                  {/* <img src={blog.imageUrl} className="img-fluid rounded-top" alt={blog.title} /> */}
                   <div className="rounded-bottom bg-light">
                     <div className="d-flex justify-content-between p-4 pb-2">
                       <span className="pe-2 text-dark"><i className="fa fa-user me-2" />By {blog.author}</span>

@@ -28,6 +28,9 @@ import OrderMembership from './components/OrderMembership';
 import CreateBlog from './components/Admin/CreateBlog';
 import EditBlog from './components/Admin/EditBlog';
 import BlogDetail from './components/blogdetail';
+import QRCodeGeneratormem from './components/QRCodeGeneratormem';
+import QRCodeGeneratorquantity from './components/QRCodeGeneratorquantity';
+import QRCodeGeneratorweight from './components/QRCodeGeneratorweight';
 function App() {
   return (
 
@@ -62,6 +65,9 @@ function App() {
           <Route path="/orderweightlist" element={<OrderWeightList />} />
           <Route path="/addmembership" element={<AddMembership />} />
           <Route path="/membershiplist" element={<MembershipList />} />
+          <Route path="/membershiplist/:membershipId" element={<QRCodeGeneratormem/>} />
+          <Route path="/orderquantitylist/:orderQuantityId" element={<QRCodeGeneratorquantity/>} />
+          <Route path="/orderweightlist/:orderWeightId" element={<QRCodeGeneratorweight/>} />
           <Route path="/renewmembership" element={<RenewMembership />} />
           <Route path="/ordermembership" element={<OrderMembership />} />
           <Route path="/ordermembership" element={<OrderMembership />} />

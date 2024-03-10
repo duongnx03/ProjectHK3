@@ -39,6 +39,12 @@ namespace Project3.Services
 
             return orderWeight;
         }
+
+        public Task<List<OrderWeight>> GetAllOrderWeight()
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task SendOrderConfirmationEmail(string toEmail)
         {
             using (MailMessage mail = new MailMessage())
@@ -59,9 +65,10 @@ namespace Project3.Services
                 }
             }
         }
-        public async Task<List<OrderWeight>> GetAllOrderWeight()
+
+        public async Task<OrderWeight> GetOrderWeightById(int id)
         {
-            return await _dbContext.OrderWeights.ToListAsync();
+            return await _dbContext.OrderWeights.FindAsync(id);
         }
     }
 }

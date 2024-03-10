@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Spinner, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function OrderQuantityList() {
   const [orderQuantities, setOrderQuantities] = useState([]);
@@ -45,6 +46,7 @@ function OrderQuantityList() {
               <th>Customer Name</th>
               <th>Customer Phone</th>
               <th>Customer Email</th>
+              <th>QR Code</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +60,7 @@ function OrderQuantityList() {
                 <td>{orderQuantity.customerName}</td>
                 <td>{orderQuantity.customerPhone}</td>
                 <td>{orderQuantity.customerEmail}</td>
+                <td><Link to={`/orderquantitylist/${orderQuantity.orderQuantityId}`}>Generator</Link></td>
               </tr>
             ))}
           </tbody>

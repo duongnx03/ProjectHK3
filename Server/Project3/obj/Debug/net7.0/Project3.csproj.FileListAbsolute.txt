@@ -201,3 +201,5 @@ D:/Project/.net/Project3/Project3/bin/Debug/net7.0/zh/Hangfire.Core.resources.dl
 /Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/obj/Debug/net7.0/Project3.pdb
 /Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/obj/Debug/net7.0/Project3.genruntimeconfig.cache
 /Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/obj/Debug/net7.0/ref/Project3.dll
+/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/bin/Debug/net7.0/QRCoder.dll
+/Users/mac/Documents/GitHub/ProjectHK3/Server/Project3/bin/Debug/net7.0/zxing.dll

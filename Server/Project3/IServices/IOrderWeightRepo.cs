@@ -6,5 +6,6 @@ namespace Project3.IServices
     {
         Task<OrderWeight> AddOrderWeight(OrderWeight orderWeight);
         Task<List<OrderWeight>> GetAllOrderWeight();
+        Task<OrderWeight> GetOrderWeightById(int id);
     }
 }

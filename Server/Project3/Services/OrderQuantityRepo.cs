@@ -42,6 +42,11 @@ namespace Project3.Services
             return await _dbContext.OrderQuantitys.ToListAsync();
         }
 
+        public async Task<OrderQuantity> GetOrderQuantityById(int id)
+        {
+            return await _dbContext.OrderQuantitys.FindAsync(id);
+        }
+
         private async Task SendOrderConfirmationEmail(string toEmail)
         {
             using (MailMessage mail = new MailMessage())

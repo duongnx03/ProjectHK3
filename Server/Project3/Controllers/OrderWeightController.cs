@@ -52,5 +52,23 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("{id}")] // Endpoint để lấy OrderWeight theo Id
+        public async Task<IActionResult> GetOrderWeightById(int id)
+        {
+            try
+            {
+                var orderWeight = await _orderWeightRepo.GetOrderWeightById(id);
+                if (orderWeight == null)
+                {
+                    return NotFound();
+                }
+                return Ok(orderWeight);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

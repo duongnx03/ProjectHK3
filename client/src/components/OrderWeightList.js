@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Spinner, Alert } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+
 
 function OrderWeightList() {
   const [orderWeights, setOrderWeights] = useState([]);
@@ -44,6 +46,7 @@ function OrderWeightList() {
               <th>Customer Name</th>
               <th>Customer Phone</th>
               <th>Customer Email</th>
+              <th>QRCode</th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +60,7 @@ function OrderWeightList() {
                 <td>{orderWeight.customerName}</td>
                 <td>{orderWeight.customerPhone}</td>
                 <td>{orderWeight.customerEmail}</td>
+                <td><Link to={`/orderweightlist/${orderWeight.orderWeightId}`}>Generator</Link></td>
               </tr>
             ))}
           </tbody>
